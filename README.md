@@ -1,8 +1,8 @@
 # external-sort
 
-`external-sort`是使用`Go.lang`编写的外排序库; 支持对用户自定义文件的内容进行排序.
+[English Version](https://github.com/frealcone/external-sort/blob/main/README_EN)
 
-`external-sort` is an external sort algorithm lib built with `Go.lang` which supports sorting user-defined files.
+`external-sort`是使用`Go.lang`编写的外排序库; 支持对用户自定义文件的内容进行排序.
 
 ## 使用 (Get Started)
 
@@ -12,9 +12,9 @@
 func ExtSort(r ds.FileReader, cvt ds.Convertable, destination string, N int) error
 ```
 
-- 描述
+## 描述
 
-`ExtSort`共接收4个参数: r用户读取文件, cvt用于将文件的字符(或二进制)内容转化为文件记录类型的数据, destination为排好序的数据最终存储到的磁盘文件路径, N为对可用内存所能容纳下的文件记录数量的估计.
+`ExtSort`共接收4个参数: r用于读取文件, cvt用于将文件的字符(或二进制)内容转化为文件记录类型的数据, destination为排好序的数据最终存储到的磁盘文件路径, N为对可用内存所能容纳下的文件记录数量的估计.
 
 其中, 文件读取, 转化相关的接口定义如下, 用户**必须**自行实现这些接口:
 
@@ -52,10 +52,10 @@ String() string
 `CompareTo()`将当前`FileRecord`类型变量与另一变量`fr`进行比较, 如当前变量大于/等于/小于`fr`时, 返回值分别小于/等于/大于0; `String()`将当前变量再次变回字符(或二进制)数据;
 
 > **注意**:
-> `destination`如果表示的是一个已有的文件, 那么`ExtSort()`会将该文件清空.
+> `destination`如果表示的是一个已有的文件, 那么`ExtSort()`会将该文件清空, 如该文件不存在, 则创建该文件.
 > `Convert()`和`String()`互为逆操作, 也就是说, `string`类型的变量`s`在不进行其他操作的情况下, 经过`fr, _ := Convert(s); t := fr.String()`, 得到变量`t`, 则s等于t
 
-### 案例 (Case)
+## 案例 (Case)
 
 已有文件numbers.txt:
 
@@ -76,11 +76,12 @@ import (
 	"strconv"
 
 	esort "github.com/frealcone/external-sort"
+	eds "github.com/frealcone/external-sort/data_structure"
 )
 
 type Integer int
 
-func (i Integer) CompareTo(s esort.Sortable) int {
+func (i Integer) CompareTo(s eds.Sortable) int {
 	return int(i) - int(s.(Integer))
 }
 
@@ -90,7 +91,7 @@ func (i Integer) String() string {
 
 type IntegerConv struct{}
 
-func (ic IntegerConv) Convert(s string) (esort.FileRecord, error) {
+func (ic IntegerConv) Convert(s string) (eds.FileRecord, error) {
 	i, e := strconv.Atoi(s)
 	if e != nil {
 		return nil, e
@@ -111,12 +112,12 @@ func (fr *LocalFileReader) ChangeSource(source *os.File) {
 	fr.Source = bufio.NewReader(source)
 }
 
-func (fr LocalFileReader) Copy() esort.DiskReader {
+func (fr LocalFileReader) Copy() eds.FileReader {
 	return &LocalFileReader{fr.Source}
 }
 
 func main() {
-	file, _ := os.Open("./mock_data")
+	file, _ := os.Open("./numbers.txt")
 	source := bufio.NewReader(file)
 
 	reader := &LocalFileReader{Source: source}
