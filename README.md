@@ -1,6 +1,6 @@
 # external-sort
 
-[English Version](https://github.com/frealcone/external-sort/blob/main/README_EN)
+[English Version](https://github.com/frealcone/external-sort/blob/main/README_EN.md)
 
 `external-sort`是使用`Go.lang`编写的外排序库; 支持对用户自定义文件的内容进行排序.
 
