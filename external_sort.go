@@ -1,6 +1,8 @@
 package external_sort
 
 import (
+	"os"
+
 	ds "github.com/frealcone/external-sort/data_structure"
 	"github.com/frealcone/external-sort/merging"
 	"github.com/frealcone/external-sort/preprocessing"
@@ -23,7 +25,7 @@ func ExtSort(r ds.FileReader, cvt ds.Convertable, destination string, N int) err
 	}
 
 	// 清理中间文件
-	// os.RemoveAll(path)
+	os.RemoveAll(path)
 
 	return nil
 }

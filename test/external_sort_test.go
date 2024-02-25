@@ -15,7 +15,7 @@ func TestExtSort(t *testing.T) {
 		t.Fatalf("failed to create mock data file\n")
 	}
 
-	data_structure_test.GenData(sf, 1000)
+	data_structure_test.GenData(sf, 100000)
 	sf.Close()
 
 	sf, err = os.Open("./mock_data")
@@ -28,7 +28,7 @@ func TestExtSort(t *testing.T) {
 
 	cvt := new(data_structure_test.IntegerConv)
 
-	err = external_sort.ExtSort(reader, cvt, "./mock_result", 100)
+	err = external_sort.ExtSort(reader, cvt, "./mock_result", 10000)
 	if err != nil {
 		t.Fatalf("failed to sort data: %s", err.Error())
 	}

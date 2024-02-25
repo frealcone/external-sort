@@ -50,8 +50,7 @@ func MergeRunLength(K int, readers []ds.FileReader, cvt ds.Convertable, result *
 			pkTree.Put(nil, i)
 		}
 	}
-	// =========================================================
-	// DEBUG
+
 	// 开始输出结果
 	for {
 		r, next := pkTree.Peak()
@@ -65,7 +64,6 @@ func MergeRunLength(K int, readers []ds.FileReader, cvt ds.Convertable, result *
 			pkTree.Put(nil, next)
 		}
 	}
-	// =========================================================
 
 	if err := egrp.Wait(); err != io.EOF {
 		return err
