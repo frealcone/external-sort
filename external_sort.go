@@ -11,7 +11,7 @@ import (
 // ExtSort 方法将source文件中的内容排序, 并最终输出到destination文件中, N代表内存最大可以存放N条记录
 // 注: 参数r用于从文件中读取文本以用于转化为记录, 一次读取操作仅读出一条记录
 // 另外, 用户实现的Read方法需要自己决定缓冲区大小, ExtSort传入该方法的切片大小为0
-func ExtSort(r DiskReader, cvt FileRecordConv, destination string, N int) error {
+func ExtSort(r ds.FileReader, cvt ds.Convertable, destination string, N int) error {
 	// 预处理
 	flengths, path, err := preprocessing.Preprocess(r, cvt, N)
 	if err != nil {
@@ -29,13 +29,3 @@ func ExtSort(r DiskReader, cvt FileRecordConv, destination string, N int) error 
 
 	return nil
 }
-
-// 对用户可能接触到的数据类型的声明
-
-type DiskReader ds.FileReader
-
-type FileRecordConv ds.Convertable
-
-type Sortable ds.Sortable
-
-type FileRecord ds.FileRecord

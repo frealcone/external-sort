@@ -9,7 +9,7 @@
 `external-sort`算法的定义如下:
 
 ```go
-func ExtSort(r DiskReader, cvt FileRecordConv, destination string, N int) error
+func ExtSort(r ds.FileReader, cvt ds.Convertable, destination string, N int) error
 ```
 
 - 描述
@@ -18,7 +18,7 @@ func ExtSort(r DiskReader, cvt FileRecordConv, destination string, N int) error
 
 其中, 文件读取, 转化相关的接口定义如下, 用户**必须**自行实现这些接口:
 
-1. DiskReader
+1. FileReader
 
 ```go
 Read() (string, error)
@@ -26,9 +26,9 @@ ChangeSource(source *os.File)
 Copy() DiskReader
 ```
 
-其中, 文件读取接口声明了三个方法: `Read()`方法从待排序文件中, 读取可以转化为一个文件记录类型变量的字符(或二进制)内容, 并将文件指针移动到下一次读取的位置; `ChangeSource()`方法将待排序文件修改为`source`; `Copy()`方法将当前`DiskReader`类型的变量复制一份并返回;
+其中, 文件读取接口声明了三个方法: `Read()`方法从待排序文件中, 读取可以转化为一个文件记录类型变量的字符(或二进制)内容, 并将文件指针移动到下一次读取的位置; `ChangeSource()`方法将待排序文件修改为`source`; `Copy()`方法将当前`FileReader`类型的变量复制一份并返回;
 
-2. FileRecordConv
+2. Convertable
 
 ```go
 Convert(s string) (FileRecord, error)
